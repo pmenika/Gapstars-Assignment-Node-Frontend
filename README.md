@@ -59,9 +59,9 @@ part of your solution does not need to actually run)
 
 3. Since the assignment doesn't ask to create a new project with react for frontend developers, I assumed I have to use only this node project. Hence I have used node code and node http methods (for sending my result to HTTP endpoint).
 
-4. Synchronous and Asynchronous solutions will be stored into two separate files called 'Synchronous task solution.txt' and 'Asynchronous task solution.txt' which are in the root of this project as per requirement (for Node)
+4. All tasks solutions will be stored in three separate files(results from each functions) which are in the root of this project as per requirement (for Node)
 
-5. I have used 'http-config.js' file to store http endpoint details for frontend code. Hence it won't required to update multiple places when changing endpoint details.
+5. I have used 'http-config.js' file to store http endpoint details for frontend code in order to keep configurations in one place.
 
 ### Run Project
 
