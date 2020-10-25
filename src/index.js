@@ -3,35 +3,51 @@ const fs = require('fs');
 
 console.log('It works!');
 
-const getWordFizzBuzz = w => `${w % 3 === 0 ? 'Fizz' : ''}${w % 5 === 0 ? 'Buzz' : ''}`;
+const getWordFizzBuzz = w => `${w % 3 === 0 ?  'Fizz' : ''}${w % 5 === 0 ? 'Buzz' : ''}`;
 
-/* Solution for 1st and 2nd tasks - With synchronous function.
-Since 4th task is asking to handle error for synchronous function as well, added try, catch and { withErrors: true } to the code. */
+// Solution for 1st Task and 4th Task (Handling errors for synchronous with getRandomWordSync({ withErrors: true }))
 
-function getResultsWithFizzBuzzSync() {
+function getResultsSync() {
     return Array(100).fill().map((value, index) => {
         index++;
         try {
-            return `${index}: ${getWordFizzBuzz(index) || getRandomWordSync({ withErrors: true })}`;
+            return `${index}: ${getRandomWordSync({ withErrors: true })}`;
         } catch (err) {
             return `${index}: It shouldn't break anything!`;
         }
     });
 }
 
-const finalOutputSync = getResultsWithFizzBuzzSync().join('\n');
-fs.writeFileSync('Synchronous task solution.txt', finalOutputSync);
-console.log('Synchronous task solution has been saved');
+var syncRandomWordResults = getResultsSync();
+const finalOutputFirstTask = syncRandomWordResults.join('\n');
+fs.writeFileSync('First task solution.txt', finalOutputFirstTask);
+console.log('First task solution has been saved');
 
 
-//Solution for 3rd and 4th tasks - With asynchronous function
+// Solution for 2nd Task
+
+function getResultsSyncWithFuzzBizz() {
+    let wordResultWithFizBuzz=[];
+    wordResultWithFizBuzz =  syncRandomWordResults.map((value,index)=>{
+        index++;
+            return `${index}: ${getWordFizzBuzz(index) || value.replace(index+': ','')}`;
+    })
+    return wordResultWithFizBuzz;
+
+}
+
+const finalOutputSecondTask = getResultsSyncWithFuzzBizz().join('\n');
+fs.writeFileSync('Second task solution.txt', finalOutputSecondTask);
+console.log('Second task solution has been saved');
+
+// 3rd and 4th tasks
 
 async function getResultsWithFizzBuzzAsync() {
     console.time("executetime");
     const promisesArray = Array(100).fill().map(async (value, index) => {
         index++;
         try {
-            return `${index}: ${getWordFizzBuzz(index) || await getRandomWord({ withErrors: true })}`;
+            return `${index}: ${getWordFizzBuzz(index) || await getRandomWord({ slow: true })}`;
         } catch (err) {
             return `${index}: It shouldn't break anything!`;
         }
@@ -42,18 +58,17 @@ async function getResultsWithFizzBuzzAsync() {
 }
 
 getResultsWithFizzBuzzAsync().then(result => {
-
-    const finalOutputAsync = result.join('\n')
-    fs.writeFileSync('Asynchronous task solution.txt', finalOutputAsync);
-    console.log('Asynchronous task solution has been saved');
+    const finalOutputThirdAndForth = result.join('\n')
+    fs.writeFileSync('Third and Forth task solution.txt', finalOutputThirdAndForth);
+    console.log('Third and Forth task solution has been saved');
     console.timeEnd("executetime");
 
 }).catch(err => console.log(err));
 
 /* Solution for task 5
- When you hit npm start, each of the sync and async solutions will be store in to separate files.
+ When you hit npm start, each of the tasks solutions will be store in to separate files.
 
 Bonus point tasks
     It's displaying in ascending order.
-    When executing with getRandomWord({ slow: true }), executetime is giving execution duration as 524.647ms which is less than 1000ms
+    When executing with getRandomWord({ slow: true }), executetime is giving execution duration around 523.640ms which is less than 1000ms
 */

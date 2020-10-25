@@ -6,36 +6,51 @@ console.log('It works!');
 
 const getWordFizzBuzz = w => `${w % 3 === 0 ? 'Fizz' : ''}${w % 5 === 0 ? 'Buzz' : ''}`;
 
-/* Solution for 1st and 2nd tasks - With synchronous function.
-Since 4th task is asking to handle error for synchronous function as well, added try, catch and { withErrors: true } to the code. */
-
-function getResultsWithFizzBuzzSync() {
-    return Array(100).fill().map((value, index) => {
-        index++;
-        try {
-            return `${index}: ${getWordFizzBuzz(index) || getRandomWordSync({ withErrors: true })}`;
-        } catch (err) {
-            return `${index}: It shouldn't break anything!`;
-        }
-    });
-}
-
-const finalOutputSync = getResultsWithFizzBuzzSync();
-
-const syncReqData = JSON.stringify({
-    syncResult: finalOutputSync
-})
-
 const options = {
     hostname: endPointConfig.hostname,
     port: endPointConfig.port,
     path: endPointConfig.path,
     method: endPointConfig.method,
     headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': syncReqData.length
+        'Content-Type': 'application/json'
     }
 }
+
+// Solution for 1st Task and 4th Task (Handling errors with getRandomWordSync({ withErrors: true }))
+
+function getResultsSync() {
+    return Array(100).fill().map((value, index) => {
+        index++;
+        try {
+            return `${index}: ${getRandomWordSync({ withErrors: true })}`;
+        } catch (err) {
+            return `${index}: It shouldn't break anything!`;
+        }
+    });
+}
+
+var syncRandomWordResults = getResultsSync();
+console.log('syncRandomWordResults', syncRandomWordResults)
+
+// Solution for 2nd Task
+
+function getResultsSyncWithFuzzBizz() {
+    let wordResultWithFizBuzz = [];
+    wordResultWithFizBuzz = syncRandomWordResults.map((value, index) => {
+        index++;
+        return `${index}: ${getWordFizzBuzz(index) || value.replace(index + ': ', '')}`;
+    })
+    return wordResultWithFizBuzz;
+
+}
+
+const finalOutputSecondTask = getResultsSyncWithFuzzBizz();
+
+// Sending final solution for 1st and 2nd task through http request
+const syncReqData = JSON.stringify({
+    syncResult: finalOutputSecondTask
+})
+options.headers['Content-Length'] = syncReqData.length
 
 const syncReq = https.request(options, res => {
     res.on('data', d => {
@@ -50,7 +65,7 @@ syncReq.on('error', error => {
 syncReq.write(syncReqData)
 syncReq.end()
 
-//Solution for 3rd and 4th tasks - With asynchronous function
+// 3rd and 4th tasks
 
 async function getResultsWithFizzBuzzAsync() {
     console.time("executetime");
@@ -69,21 +84,13 @@ async function getResultsWithFizzBuzzAsync() {
 
 getResultsWithFizzBuzzAsync().then(result => {
 
-    const finalOutputAsync = result
+    const finalOutputThirdAndForth = result
+    // Sending final solution for 3rd and 4nd task through http request
     const asyncReqData = JSON.stringify({
-        syncResult: finalOutputAsync
+        syncResult: finalOutputThirdAndForth
     })
 
-    const options = {
-        hostname: endPointConfig.hostname,
-        port: endPointConfig.port,
-        path: endPointConfig.path,
-        method: endPointConfig.method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': asyncReqData.length
-        }
-    }
+    options.headers['Content-Length'] = asyncReqData.length
 
     const asyncReq = https.request(options, res => {
         res.on('data', d => {
@@ -97,15 +104,14 @@ getResultsWithFizzBuzzAsync().then(result => {
 
     asyncReq.write(asyncReqData)
     asyncReq.end()
-
     console.timeEnd("executetime");
 
 }).catch(err => console.log(err));
 
 /* solution for task 5
-When you hit node src/frontend/index.js, final output of each synchronous and asynchronous functions will be sent through the http call. Since it doesn't have actual endpoint the call will fail.
+When you hit node src/frontend/index.js, final output will be sent through the http call. Since it doesn't have actual endpoint the call will fail.
 
  Bonus point tasks
     It's displaying in ascending order.
-    When executing with getRandomWord({ slow: true }), executetime is giving execution duration as 523.847ms which is less than 1000ms
+    When executing with getRandomWord({ slow: true }), executetime is giving execution duration around 521.364ms which is less than 1000ms
 */
