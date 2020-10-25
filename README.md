@@ -49,3 +49,22 @@ part of your solution does not need to actually run)
 **Bonus:**
 * The numbers should be printed in ascending order.
 * Imagine `getRandomWord`'s implementation is slow and takes 500ms to complete (call `getRandomWord({ slow: true })` to emulate this). Can you make your solution run in less than 1000ms with the `slow` option turned on?
+
+
+### Solution explanation
+
+1. Since all 5 tasks are related to same function when completing each tasks, the initial code will update accordingly. Hence eventhough initial tasks were completed, it won't be available within final code as the code is updating(for an example getRandomWordSync is converting to getRandomWord from 3rd task onwards). In order to avoid that I have devided this as synchronous function and asynchronous function in the code. 
+
+2. Since I am doing both Node and frontend development here, I have placed frontend code solution in a separate folder called "frontend" while node code will be available in index.js file in src. I found having two separtated projects will be overwhelming to the panel, hence placed both codes in the same project to keep things simple.
+
+3.Since the assignment doesn't ask to create a new project with react for frontend developers, I assumed I have to use only this node project. Hence I have used node code and node http methods (for sending my result to HTTP endpoint).
+
+4. Synchronous and Asynchronous solutions will be stored into two separate files called 'Synchronous task solution.txt' and 'Asynchronous task solution.txt' which are in the root of this project as per requirement (for Node)
+
+5. I have used 'http-config.js' file to store http endpoint details for frontend code. Hence it won't required to update multiple places when changing endpoint details.
+
+### Run Project
+
+1. Run 'npm install' from root folder location
+2. Run 'npm start' from root folder location for Node code execution
+3. Run 'node src/frontend/index.js' from root folder location for frontend code execution.
