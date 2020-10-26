@@ -53,9 +53,9 @@ part of your solution does not need to actually run)
 
 ### Solution explanation
 
-1. As requested I have created separate functions for each tasks.Since 4th task required to change the attribute of 3rd task, I have written both in one function. 
+1. As requested I have created separate functions for each task. Since the 4th task required to change the attribute of the 3rd task, I have written both in one function.
 
-2. Since I am doing both Node and frontend development here, I have placed frontend code solution in a separate folder called "frontend" while node code will be available in index.js file in src. I found having two separtated projects will be overwhelming to the panel, hence placed both codes in the same project to keep things simple.
+2. Since I am doing both Node and frontend development here, I have placed frontend code solution in a separate folder called "frontend" while node code will be available in index.js file in src. I found having two separate projects will be overwhelming to the panel, hence placed both codes in the same project to keep things simple.
 
 3. Since the assignment doesn't ask to create a new project with react for frontend developers, I assumed I have to use only this node project. Hence I have used node code and node http methods (for sending my result to HTTP endpoint).
 
